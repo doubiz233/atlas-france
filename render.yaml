@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: atlas-france
+    runtime: node
+    plan: free
+    autoDeploy: true
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run preview
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
