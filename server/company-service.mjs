@@ -21,6 +21,11 @@ export class ServiceError extends Error {
   }
 }
 
+export function validateSearchInput(name, postcode) {
+  if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 80) throw new ServiceError('公司名称应为 2—80 个字符。', 400, 'INVALID_NAME')
+  if (typeof postcode !== 'string' || !/^\d{5}$/.test(postcode)) throw new ServiceError('法国邮编应为 5 位数字。', 400, 'INVALID_POSTCODE')
+}
+
 export function normalizeText(value = '') {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
 }

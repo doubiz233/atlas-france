@@ -15,7 +15,7 @@ npm run dev
 
 ## 发布成可分享的公网网址
 
-项目已包含 Render Blueprint 配置 `render.yaml`，前端和查询 API 会部署在同一个 Web Service 中，无需数据库或 API 密钥。
+项目已包含 Vercel 配置 `vercel.json` 和 `api/` 下的 Serverless 查询接口。前端与 API 会部署在同一个项目中，无需数据库或 API 密钥。
 
 ### 1. 推送到 GitHub
 
@@ -30,21 +30,23 @@ git remote add origin https://github.com/YOUR_NAME/YOUR_REPO.git
 git push -u origin main
 ```
 
-### 2. 在 Render 发布
+### 2. 在 Vercel 发布
 
-1. 登录 Render，选择 **New → Blueprint**。
-2. 连接并选择刚才的 GitHub 仓库。
-3. Render 会读取 `render.yaml`，确认服务名为 `atlas-france`，点击 **Apply**。
-4. 等待构建和健康检查完成。
-5. Render 分配 `https://你的服务名.onrender.com` 后，即可把该网址发送给别人。
+1. 登录 Vercel，选择 **Add New → Project**。
+2. 连接 GitHub 并导入刚才的仓库。
+3. 框架选择 **Vite**；构建命令为 `npm run build`，输出目录为 `dist`。`api/` 中的接口会被自动识别。
+4. 不需要填写环境变量，点击 **Deploy**。
+5. 部署完成后，Vercel 会分配 `https://项目名.vercel.app`，把该网址发给别人即可使用。
 
-以后推送更新到 GitHub 主分支，Render 会自动重新部署。
+以后推送到 GitHub 主分支，Vercel 会自动重新部署。
+
+项目仍保留 `render.yaml`，需要时也可通过 Render Blueprint 部署为传统 Node.js Web Service。
 
 ### 3. 发布后验收
 
 - 打开公网网址，确认页面可正常显示。
-- 访问 `https://你的域名/api/health`，应返回 `status: ok`。
-- 用 `La Poste` 和 `75015` 做一次真实查询。
+- 访问 `https://你的域名/api/health`，应返回 `status: ok` 和 `platform: vercel`。
+- 用 `La Poste` 和 `75015` 做一次真实查询，检查登记地址、官网、公开邮箱、联系页与 Facebook 的来源链接。
 - 分别用手机和电脑检查查询、复制和 CSV 导出。
 
 公开网页搜索和部分公司官网可能限制数据中心访问。如果公网部署后登记地址正常、但官网或社媒不完整，页面会明确显示未找到或待确认，不会生成虚假结果。重要业务使用前请通过来源链接再次核实。
